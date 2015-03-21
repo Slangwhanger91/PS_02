@@ -16,8 +16,14 @@ public class Clique_Tester {
 	public static int MAX_CLIQUE = 100000;
 	public static boolean Convert = true;
 	
+	private static String[] testStrings(double range, int from, int to){
+		return new String[]{"test1.csv", ""+range, ""+from, ""+to};
+	}
 	
 	public static void main(String[] args) {  // test1.csv_DG.txt  0.8 5 7
+		
+		args = testStrings(0.64, 8, 11);//<------- CHANGE THIS FOR DIFFERENT RESULTS
+		
 		if(args==null || args.length<3) {
 			help();
 		}
