@@ -64,16 +64,20 @@ class Graph {
 				}
 			}
 
+			float v;
+			int ind;
+			VertexSet vs;
+			//VertexSet vs;//MODIFIED
 			while (s != null) {
-
 				/*if(Clique_Tester.Debug){
                  if(line%t==0) System.out.print(".");                                
                  }*/
-				VertexSet vs = new VertexSet();
+				vs = new VertexSet();
 				if (_mat_flag) {
 					for (int i = 0; i < len; ++i) {
 						//float v = new Double(st.nextToken()).floatValue();//?????
-						float v = new Float(st.nextToken()).floatValue();//MODIFIED(?)
+						//float v = new Float(st.nextToken()).floatValue();//MODIFIED(?)
+						v = Float.parseFloat(st.nextToken());//MODIFIED parse returns primitive
 						if (v > _TH & line < i) {
 							vs.add(i);
 							++_E_size;
@@ -82,7 +86,8 @@ class Graph {
 				} else {
 					st.nextToken();
 					while (st.hasMoreTokens()) {
-						int ind = new Integer(st.nextToken()).intValue();//?????
+						//ind = new Integer(st.nextToken()).intValue();//
+						ind = Integer.parseInt(st.nextToken());//MODIFIED
 						// bug fixed as for Ronens format.
 						if (line < ind) {
 							vs.add(ind);
@@ -92,30 +97,26 @@ class Graph {
 				_V.add(vs);
 				++line;
 				s = is.readLine();
-				if (s != null) {
-					st = new StringTokenizer(s, ", ");
-				}
+				if (s != null) st = new StringTokenizer(s, ", ");
 			}//while
 
-			if (_mat_flag & Clique_Tester.Convert) {
-				write2file();
-			}
+			if (_mat_flag & Clique_Tester.Convert) write2file();
 			if (Clique_Tester.Debug) {
 				System.out.print("\ndone reading the graph! ");
-				this.print();
+				//print();
+				System.out.print("Graph: |V|=" + this._V.size() + " ,  |E|=" + _E_size + "\n");//MODIFIED - instead of function call to print()
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+
+		} catch (IOException e) {e.printStackTrace();}
+	}//init()
 
 	public VertexSet Ni(int i) {
 		return _V.get(i);//MODIFIED
 	}
 
-	public void print() {
+	/*public void print() {
 		System.out.print("Graph: |V|=" + this._V.size() + " ,  |E|=" + _E_size + "\n");
-	}
+	}*/
 
 	/**
 	 * computes all the 2 cliques --> i.e. all the edges
@@ -124,13 +125,15 @@ class Graph {
 	 */
 	private ArrayList<VertexSet> allEdges() { // all edges – all cliques of size 2/
 		ArrayList<VertexSet> ans = new ArrayList<VertexSet>();
-		int size = _V.size();//MODIFIED
+		int size = _V.size(), size2;//MODIFIED
+		VertexSet curr, tmp;//MODIFIED
+
 		for (int i = 0; i < size; ++i) {
-			VertexSet curr = _V.get(i);
-			int size2 = curr.size();
+			curr = _V.get(i);
+			size2 = curr.size();
 			for (int a = 0; a < size2; ++a) {
 				if (i < curr.at(a)) {
-					VertexSet tmp = new VertexSet();
+					tmp = new VertexSet();
 					tmp.add(i);
 					tmp.add(curr.at(a));
 					ans.add(tmp);
@@ -179,11 +182,8 @@ class Graph {
 		int count = 0;
 
 		FileWriter fw = null;
-		try {
-			fw = new FileWriter(out_file);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		try {fw = new FileWriter(out_file);} 
+		catch (IOException e) {e.printStackTrace();}
 		PrintWriter os = new PrintWriter(fw);
 		//os.println("A");
 
@@ -193,30 +193,39 @@ class Graph {
 			System.out.print("Computing all cliques of size[" + min_size + "," + max_size + "] based on " + len + " edges graph, this may take a while\n");
 			//System.out.print(ll + "\n");
 		}
-		os.print("All Cliques: file [min max] TH," + this._file_name + "," + min_size + ", " + max_size + ", " + this._TH + "\n");
+		os.println("All Cliques: file [min max] TH," + this._file_name + "," + min_size + ", " + max_size + ", " + this._TH);
 		os.println("index, edge, clique size, c0, c1, c2, c3, c4,  c5, c6, c7, c8, c9");
-		for (int i = 0; i < len; ++i) {
-			VertexSet curr_edge = C0.get(i);
-			Clique edge = new Clique(curr_edge.at(0), curr_edge.at(1));
-			ArrayList<Clique> C1 = allC_seed(edge, min_size, max_size);
 
-			int size = C1.size();
-			for (int b = 0; b < size; ++b) {
-				Clique c = C1.get(b);
+		VertexSet curr_edge;
+		Clique edge, c;
+		ArrayList<Clique> C1;
+		int MaxClique_limit = Clique_Tester.MAX_CLIQUE;
+		boolean isFinished = true;//MODIFIED - More efficient CMD indicator
+		for (int i = 0, b, size; i < len; ++i) {
+			curr_edge = C0.get(i);
+			edge = new Clique(curr_edge.at(0), curr_edge.at(1));
+			C1 = allC_seed(edge, min_size, max_size);
+
+			size = C1.size();
+			for (b = 0; b < size; ++b) {
+				c = C1.get(b);
 				if (c.size() >= min_size) {
-					os.print(count + ", " + i + "," + c.size() + ", " + c.toFile() + "\n");
+					os.println(count + ", " + i + "," + c.size() + ", " + c.toFile());
 					++count;
 				}
 			}
-			if (count > Clique_Tester.MAX_CLIQUE) {
-				os.print("ERROR: too many cliques! - cutting off at " + Clique_Tester.MAX_CLIQUE + " for larger files change the default Clique_Tester.MAX_CLIQUE param\n");
+			if (count > MaxClique_limit) {//MODIFIED(?) - local variable instead of class call
+				os.println("ERROR: too many cliques! - cutting off at " + Clique_Tester.MAX_CLIQUE + " for larger files change the default Clique_Tester.MAX_CLIQUE param");
+				System.out.println("ERROR: too many cliques! - cutting off at " + Clique_Tester.MAX_CLIQUE + " for larger files change the default Clique_Tester.MAX_CLIQUE param");
+				isFinished = false;
 				i = len;
 			}
 			/*if(i%t==0) {//MODIFIED
              System.out.print(".");
              }*/
 		} //for
-		System.out.println();
+
+		if(isFinished) System.out.println("Done reading all cliques successfully");
 
 		os.close();
 		try {fw.close();} catch (IOException e) {e.printStackTrace();}
@@ -238,15 +247,17 @@ class Graph {
 	ArrayList<Clique> allC_seed(Clique edge, int min_size, int max_size) {
 		ArrayList<Clique> ans = new ArrayList<Clique>();
 		ans.add(edge);
-		int i = 0;
+		int i = 0, size, a;
+		Clique curr, c;
+		VertexSet Ni;
 		//	int size = 2;
 		while (ans.size() > i) {
-			Clique curr = ans.get(i);
+			curr = ans.get(i);
 			if (curr.size() < max_size) {
-				VertexSet Ni = curr.commonNi();
-				int size = Ni.size();//MODIFIED
-				for (int a = 0; a < size; ++a) {
-					Clique c = new Clique(curr, Ni.at(a));
+				Ni = curr.commonNi();
+				size = Ni.size();//MODIFIED
+				for (a = 0; a < size; ++a) {
+					c = new Clique(curr, Ni.at(a));
 					ans.add(c);
 				}
 			} else {
@@ -260,11 +271,8 @@ class Graph {
 
 	public void write2file() {
 		FileWriter fw = null;
-		try {
-			fw = new FileWriter(this._file_name + "_DG.txt");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		try {fw = new FileWriter(this._file_name + "_DG.txt");} 
+		catch (IOException e) {e.printStackTrace();}
 		//PrintWriter os = new PrintWriter(fw);//MODIFIED
 		BufferedWriter os = new BufferedWriter(fw);
 		try {
@@ -272,8 +280,9 @@ class Graph {
 			os.newLine();os.newLine();
 			//os.print("ALL_Cliques: of file: "+_file_name+",  TH:"+this._TH + "\n\n");
 			int size = _V.size();
+			VertexSet curr;
 			for (int i = 0; i < size; ++i) {
-				VertexSet curr = _V.get(i);
+				curr = _V.get(i);
 				os.append(i + ", " + curr.toFile());
 				os.newLine();
 				//os.print(i+", "+curr.toFile() + "\n");
@@ -281,8 +290,7 @@ class Graph {
 			os.close();
 
 			fw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		} 
+		catch (IOException e) {e.printStackTrace();}
 	}
 }

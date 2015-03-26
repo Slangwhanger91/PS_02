@@ -1,5 +1,7 @@
 package Modified_files;
 
+import java.util.Arrays;
+
 /**
  * this class represents a simple ORDERD set of vertices. used by Cliques
  * The code was written in C like flavor - no java.util, no abstraction  
@@ -23,32 +25,35 @@ public class VertexSet {
 		//count[0]++;//delete
 		_set = new int[INIT_SIZE];
 		_sp = 0;
-		for(int i = 0; i < ot._sp; ++i) this.add(ot.at(i));//_sp
+		for(int i = 0; i < ot._sp; ++i) add(ot._set[i]);//MODIFIED - direct call to _set[i] instead of at(i)
 	}
 
 	public void add(int a) {
 		if(_sp == _set.length) resize();
 		_set[_sp] = a;
 		//--count[_sp];//delete
-		++_sp;
+		++_sp;//faster than '_set[_sp++] = a;' (FYI!)
 		//++count[_sp];//delete
 	}
+	
 	/*public void print_shit(){//DELETE
 		for (int i = 0; i < count.length; i++)
 			System.out.print(i+":"+count[i] + ", ");
 		System.out.println();
 	}*/
+	
 	public int size() {return _sp;}
+	
 	public int at(int i) {return _set[i];}
 
 	public String toString() {//MODIFIED
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("Set: |");
-		sb.append(size());
+		sb.append(_sp);
 		sb.append("| ");
-		for(int i = 0; i < size(); ++i){
-			sb.append(this.at(i));
+		for(int i = 0; i < _sp; ++i){
+			sb.append(_set[i]);
 			sb.append(", ");
 		}
 
@@ -63,8 +68,8 @@ public class VertexSet {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append(" ");
-		for(int i = 0; i < size(); ++i){
-			sb.append(this.at(i));
+		for(int i = 0; i < _sp; ++i){
+			sb.append(_set[i]);
 			sb.append(", ");
 		}
 
@@ -80,7 +85,7 @@ public class VertexSet {
 	 * this method computes the intersection between this set and ot set.
 	 * @param ot - the other set
 	 */
-	public VertexSet intersection(VertexSet ot) {
+	public VertexSet intersection(VertexSet ot) {//is it really needed?
 		VertexSet ans = new VertexSet();
 		int ot_set[] = ot._set;//MODIFIED direct ref
 		int i1 = 0, i2 = 0, a1, a2;//MODIFIED
@@ -96,9 +101,9 @@ public class VertexSet {
 	}
 
 	private void resize() {
-		int[] tmp = new int[_sp + INC];
-		for(int i = 0; i < _sp; ++i) tmp[i] = _set[i];
-		_set = tmp;
+		//int[] tmp = new int[_sp + INC];
+		//for(int i = 0; i < _sp; ++i) tmp[i] = _set[i];
+		_set = Arrays.copyOf(_set,  _sp + INC);//MODIFIED
 	}
 
 }

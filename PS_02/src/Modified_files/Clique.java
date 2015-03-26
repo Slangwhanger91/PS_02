@@ -45,13 +45,12 @@ public class Clique {
 		return sb.toString();
 	}
 
-	public int size() {return this._clique.size();}
-	public VertexSet clique() {return this._clique;}
+	public int size() {return _clique.size();}
+	public VertexSet clique() {return _clique;}
+	public VertexSet commonNi() {return _Ni;}
 	public void addVertex(int vertex){
 		_clique.add(vertex);
 		_Ni = _Ni.intersection(_graph.Ni(vertex));
 	}
-	public VertexSet commonNi() {
-		return _Ni;
-	}
+	
 }

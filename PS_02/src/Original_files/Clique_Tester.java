@@ -17,8 +17,8 @@ public class Clique_Tester {
 	}
 
 	public static void main(String[] args) {  // test1.csv_DG.txt  0.8 5 7
-		System.out.println("crap");
-
+		System.out.println("crap2");
+		//use this from now on: 0.74, 20, 50
 		args = testStrings(0.75, 7, 10);//<------- CHANGE THIS FOR DIFFERENT RESULTS
 
 		long t2= new Date().getTime();
