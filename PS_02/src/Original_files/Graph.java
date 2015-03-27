@@ -9,6 +9,8 @@ import java.io.PrintWriter;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+import Modified_files.Clique_Tester;
+
 
 /**
  * this class represents an undirected 0/1 sparse Graph 
@@ -281,6 +283,7 @@ import java.util.Vector;
 				}
 				if(count > Clique_Tester1.MAX_CLIQUE) {
 					os.println("ERROR: too many cliques! - cutting off at "+Clique_Tester1.MAX_CLIQUE+" for larger files change the default Clique_Tester.MAX_CLIQUE param");
+					System.out.println("\nERROR: too many cliques! - cutting off at " + Clique_Tester.MAX_CLIQUE + " for larger files change the default Clique_Tester.MAX_CLIQUE param");
 					i=len;
 				}
 				if(i%t==0) {

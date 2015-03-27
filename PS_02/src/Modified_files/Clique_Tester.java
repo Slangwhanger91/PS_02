@@ -9,7 +9,7 @@ public class Clique_Tester {
 	public static String in_file = "test1.csv";
 	public static String out_file = null;
 	public static boolean Debug = true;
-	public static int MAX_CLIQUE = 10000000;
+	public static int MAX_CLIQUE = 10000000; //MODIFIED - so that we'll be able to check a bigger amount of cliques before the program stops running
 	public static boolean Convert = true;
 
 	private static String[] testStrings(double range, int from, int to){
@@ -21,7 +21,8 @@ public class Clique_Tester {
 		//use this from now on: 0.74, 20, 50
 		//args = testStrings(0.75, 7, 10);//<------- CHANGE THIS FOR DIFFERENT RESULTS
 		//args = testStrings(0.731, 20, 50);
-			
+		//args = testStrings(0.751, 12, 17);
+		
 		long t2= new Date().getTime();
 		//try{Thread.sleep(1000);}catch (InterruptedException e){};
 

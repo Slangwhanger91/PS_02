@@ -216,7 +216,7 @@ class Graph {
 			}
 			if (count > MaxClique_limit) {//MODIFIED(?) - local variable instead of class call
 				os.println("ERROR: too many cliques! - cutting off at " + Clique_Tester.MAX_CLIQUE + " for larger files change the default Clique_Tester.MAX_CLIQUE param");
-				System.out.println("ERROR: too many cliques! - cutting off at " + Clique_Tester.MAX_CLIQUE + " for larger files change the default Clique_Tester.MAX_CLIQUE param");
+				System.out.println("\nERROR: too many cliques! - cutting off at " + Clique_Tester.MAX_CLIQUE + " for larger files change the default Clique_Tester.MAX_CLIQUE param");
 				i = len;
 				//isFinished = false;
 			}

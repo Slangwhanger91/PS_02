@@ -21,7 +21,9 @@ public class Clique_Tester1 {
 		//use this from now on: 0.74, 20, 50
 		//args = testStrings(0.75, 7, 10);//<------- CHANGE THIS FOR DIFFERENT RESULTS
 		//args = testStrings(0.731, 20, 50);
-			
+		//String[] arg = {"test1.csv","0.8","12","16"};
+		//String[] arg2 = {"myGraph.csv","0.8","4","4"};
+		//args = testStrings(0.74, 2, 15);//634789
 		long t2= new Date().getTime();
 		//try{Thread.sleep(1000);}catch (InterruptedException e){};
 
