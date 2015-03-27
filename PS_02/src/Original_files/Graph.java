@@ -42,13 +42,13 @@ import java.util.Vector;
 			
 			String ll = "0%   20%   40%   60%   80%   100%";
 			int t = Math.max(1,len/ll.length());
-			if(Clique_Tester.Debug){
+			if(Clique_Tester1.Debug){
 				System.out.println("Reading a corrolation matrix of size: "+len+"*"+len+" this may take a while");
 				System.out.println(ll);
 			}
 			_mat_flag = true;
 			if (s.startsWith("A")) {
-				if(Clique_Tester.Debug){
+				if(Clique_Tester1.Debug){
 					System.out.println("Assumes compact representation! two line haeder!!!");
 					System.out.println("Header Line1: "+s);
 					s = is.readLine();
@@ -61,7 +61,7 @@ import java.util.Vector;
 	
 			while(s!=null) {
 				
-				if(Clique_Tester.Debug){
+				if(Clique_Tester1.Debug){
 					if(line%t==0) System.out.print(".");                                
 				}
 				VertexSet vs = new VertexSet();
@@ -87,11 +87,12 @@ import java.util.Vector;
 				s = is.readLine();
 			if(s!=null)	st = new StringTokenizer(s,", ");
 			}
-			if(this._mat_flag & Clique_Tester.Convert) {write2file();}
-			if(Clique_Tester.Debug){
+			if(this._mat_flag & Clique_Tester1.Convert) {write2file();}
+			if(Clique_Tester1.Debug){
 				System.out.println("");
 				System.out.print("done reading the graph! ");
-				this.print();}
+				this.print();
+				}
 		} catch (IOException e) {e.printStackTrace();}
 	 }
 	
@@ -258,7 +259,7 @@ import java.util.Vector;
 			
 			String ll = "0%   20%   40%   60%   80%   100%";
 			int t = Math.max(1,len/ll.length());
-			if(Clique_Tester.Debug){
+			if(Clique_Tester1.Debug){
 				System.out.println("Computing all cliques of size["+min_size+","+max_size+"] based on "+len+" edges graph, this may take a while");
 				System.out.println(ll);
 			}
@@ -278,8 +279,8 @@ import java.util.Vector;
 						count++;
 					}
 				}
-				if(count > Clique_Tester.MAX_CLIQUE) {
-					os.println("ERROR: too many cliques! - cutting off at "+Clique_Tester.MAX_CLIQUE+" for larger files change the default Clique_Tester.MAX_CLIQUE param");
+				if(count > Clique_Tester1.MAX_CLIQUE) {
+					os.println("ERROR: too many cliques! - cutting off at "+Clique_Tester1.MAX_CLIQUE+" for larger files change the default Clique_Tester.MAX_CLIQUE param");
 					i=len;
 				}
 				if(i%t==0) {

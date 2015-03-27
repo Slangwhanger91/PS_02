@@ -17,10 +17,11 @@ public class Clique_Tester {
 	}
 
 	public static void main(String[] args) {  // test1.csv_DG.txt  0.8 5 7
-		System.out.println("crap");
+		//System.out.println("crap");
 		//use this from now on: 0.74, 20, 50
-		args = testStrings(0.75, 7, 10);//<------- CHANGE THIS FOR DIFFERENT RESULTS
-
+		//args = testStrings(0.75, 7, 10);//<------- CHANGE THIS FOR DIFFERENT RESULTS
+		//args = testStrings(0.731, 20, 50);
+			
 		long t2= new Date().getTime();
 		//try{Thread.sleep(1000);}catch (InterruptedException e){};
 
@@ -44,7 +45,8 @@ public class Clique_Tester {
 		G.All_Cliques_DFS(out_file,minQ,maxQ);
 
 		long t3= new Date().getTime();
-		System.out.println("Alg3: "+(t3-t2)+"  ms");
+		System.out.println("Total runtime: "+(t3-t2)+"  ms");
+		System.out.println("=====================================================\n");
 		//VertexSet t = new VertexSet();//DELETE
 		//t.print_shit();//DELETE
 		//write2file(c1);

@@ -45,19 +45,19 @@ class Graph {
 			int len = st.countTokens();
 			int line = 0;
 
-			//String ll = "0%   20%   40%   60%   80%   100%";
-			//int t = Math.max(1,len/ll.length());
+			String ll = "0%   20%   40%   60%   80%   100%";
+			int t = Math.max(1,len/ll.length());
 			if (Clique_Tester.Debug) {
-				System.out.print("Reading a corrolation matrix of size: " + len + "*" + len + " this may take a while\n");
-				//	System.out.println(ll);
+				System.out.println("Reading a corrolation matrix of size: " + len + "*" + len + " this may take a while\n");
+				System.out.println(ll);
 			}
 			_mat_flag = true;
 			if (s.startsWith("A")) {
 				if (Clique_Tester.Debug) {
-					System.out.print("Assumes compact representation! two line haeder!!!\n");
-					System.out.print("Header Line1: " + s + "\n");
+					System.out.println("Assumes compact representation! two line haeder!!!");
+					System.out.println("Header Line1: " + s);
 					s = is.readLine();
-					System.out.print("Header Line2: " + s + "\n");
+					System.out.println("Header Line2: " + s);
 					s = is.readLine();
 					st = new StringTokenizer(s, ", ");
 					_mat_flag = false;
@@ -69,9 +69,9 @@ class Graph {
 			VertexSet vs;
 			//VertexSet vs;//MODIFIED
 			while (s != null) {
-				/*if(Clique_Tester.Debug){
+				if(Clique_Tester.Debug){
                  if(line%t==0) System.out.print(".");                                
-                 }*/
+                 }
 				vs = new VertexSet();
 				if (_mat_flag) {
 					for (int i = 0; i < len; ++i) {
@@ -102,9 +102,9 @@ class Graph {
 
 			if (_mat_flag & Clique_Tester.Convert) write2file();
 			if (Clique_Tester.Debug) {
-				System.out.print("\ndone reading the graph! ");
-				//print();
-				System.out.print("Graph: |V|=" + this._V.size() + " ,  |E|=" + _E_size + "\n");//MODIFIED - instead of function call to print()
+				System.out.println("");
+				System.out.print("done reading the graph! ");
+				System.out.println("Graph: |V|=" + this._V.size() + " ,  |E|=" + _E_size);//MODIFIED - instead of function call to print()
 			}
 
 		} catch (IOException e) {e.printStackTrace();}
@@ -178,7 +178,7 @@ class Graph {
 		Clique.init(this);
 		ArrayList<VertexSet> C0 = allEdges(); // all edges – all cliques of size 2/
 		int len = C0.size();
-		System.out.print("|E|= " + len + "\n");
+		System.out.println("|E|= " + len);
 		int count = 0;
 
 		FileWriter fw = null;
@@ -187,11 +187,11 @@ class Graph {
 		PrintWriter os = new PrintWriter(fw);
 		//os.println("A");
 
-		//String ll = "0%   20%   40%   60%   80%   100%";
-		//int t = Math.max(1, len / ll.length());
+		String ll = "0%   20%   40%   60%   80%   100%";
+		int t = Math.max(1, len / ll.length());
 		if (Clique_Tester.Debug) {
-			System.out.print("Computing all cliques of size[" + min_size + "," + max_size + "] based on " + len + " edges graph, this may take a while\n");
-			//System.out.print(ll + "\n");
+			System.out.println("Computing all cliques of size[" + min_size + "," + max_size + "] based on " + len + " edges graph, this may take a while");
+			System.out.println(ll);
 		}
 		os.println("All Cliques: file [min max] TH," + this._file_name + "," + min_size + ", " + max_size + ", " + this._TH);
 		os.println("index, edge, clique size, c0, c1, c2, c3, c4,  c5, c6, c7, c8, c9");
@@ -200,7 +200,7 @@ class Graph {
 		Clique edge, c;
 		ArrayList<Clique> C1;
 		int MaxClique_limit = Clique_Tester.MAX_CLIQUE;
-		boolean isFinished = true;//MODIFIED - More efficient CMD indicator
+		//boolean isFinished = true;//MODIFIED - More efficient CMD indicator
 		for (int i = 0, b, size; i < len; ++i) {
 			curr_edge = C0.get(i);
 			edge = new Clique(curr_edge.at(0), curr_edge.at(1));
@@ -217,15 +217,15 @@ class Graph {
 			if (count > MaxClique_limit) {//MODIFIED(?) - local variable instead of class call
 				os.println("ERROR: too many cliques! - cutting off at " + Clique_Tester.MAX_CLIQUE + " for larger files change the default Clique_Tester.MAX_CLIQUE param");
 				System.out.println("ERROR: too many cliques! - cutting off at " + Clique_Tester.MAX_CLIQUE + " for larger files change the default Clique_Tester.MAX_CLIQUE param");
-				isFinished = false;
 				i = len;
+				//isFinished = false;
 			}
-			/*if(i%t==0) {//MODIFIED
+			if(i%t==0) {//MODIFIED
              System.out.print(".");
-             }*/
+             }
 		} //for
-
-		if(isFinished) System.out.println("Done reading all cliques successfully");
+		System.out.println();
+		//if(isFinished) System.out.println("Done reading all cliques successfully");
 
 		os.close();
 		try {fw.close();} catch (IOException e) {e.printStackTrace();}
